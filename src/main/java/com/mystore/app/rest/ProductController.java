@@ -25,8 +25,12 @@ public class ProductController {
     }
 
     @GetMapping("")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public Page<Product> getAllProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
+        return productService.getAllProducts(page, pageSize, sortBy, sortDir);
     }
 
 
@@ -56,16 +60,28 @@ public class ProductController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    // TODO: API to search products by name
+    // Search by Name
+    @GetMapping("/search")
+    public List<Product> searchProducts(@RequestParam String name) {
+        return productService.searchByProductName(name);
+    }
 
+    // Filter by Category
+    @GetMapping("/filter/category")
+    public List<Product> filterByCategory(@RequestParam String category) {
+        return productService.filterByCategory(category);
+    }
 
-    // TODO: API to filter products by category
+    // Filter by Price Range
+    @GetMapping("/filter/price")
+    public List<Product> filterByPriceRange(@RequestParam double minPrice, @RequestParam double maxPrice) {
+        return productService.filterByPrice(minPrice, maxPrice);
+    }
 
-
-    // TODO: API to filter products by price range
-
-
-    // TODO: API to filter products by stock quantity range
-
+    // Filter by Stock Quantity Range
+    @GetMapping("/filter/stock")
+    public List<Product> filterByStockQuantity(@RequestParam int minStock, @RequestParam int maxStock) {
+        return productService.filterByStockQuantity(minStock, maxStock);
+    }
 
 }
