@@ -33,7 +33,6 @@ public class ProductController {
         return productService.getAllProducts(page, pageSize, sortBy, sortDir);
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable("id") Integer id) {
         Product p = productService.getProduct(id);
